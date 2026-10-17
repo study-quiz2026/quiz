@@ -51,13 +51,29 @@ const questions = [
 {question:'政府開発援助の略称は？',choices:['NPO','WTO','WHO','ODA'],answer:3},
 {question:'国境を越えて活動する民間の非政府組織の略称は？',choices:['NGO','GDP','IMF','EU'],answer:0}
 ];
+const historyQuestions = [
+{question:'江戸幕府を開いた人物は？',choices:['徳川家康','織田信長','豊臣秀吉','徳川吉宗'],answer:0},
+{question:'参勤交代を制度化した将軍は？',choices:['徳川家康','徳川家光','徳川綱吉','徳川慶喜'],answer:1},
+{question:'享保の改革を行った将軍は？',choices:['徳川家斉','徳川家光','徳川吉宗','徳川慶喜'],answer:2},
+{question:'寛政の改革を進めた老中は？',choices:['田沼意次','水野忠邦','井伊直弼','松平定信'],answer:3},
+{question:'天保の改革を進めた老中は？',choices:['水野忠邦','松平定信','田沼意次','大久保利通'],answer:0},
+{question:'1853年に浦賀に来航したアメリカの人物は？',choices:['ハリス','ペリー','マッカーサー','ザビエル'],answer:1},
+{question:'1854年に日本がアメリカと結んだ条約は？',choices:['日米修好通商条約','下関条約','日米和親条約','ポーツマス条約'],answer:2},
+{question:'1867年に徳川慶喜が政権を朝廷に返したことは？',choices:['版籍奉還','廃藩置県','地租改正','大政奉還'],answer:3},
+{question:'1871年に藩を廃止して府県を置いた政策は？',choices:['廃藩置県','版籍奉還','徴兵令','学制'],answer:0},
+{question:'1873年に出された、国民に兵役を義務づける法令は？',choices:['地租改正条例','徴兵令','治安維持法','五箇条の御誓文'],answer:1},
+{question:'1889年に発布された憲法は？',choices:['日本国憲法','十七条の憲法','大日本帝国憲法','武家諸法度'],answer:2},
+{question:'1894年に始まった日本と清の戦争は？',choices:['日露戦争','西南戦争','戊辰戦争','日清戦争'],answer:3}
+];
+const collections = {civics:{title:'中学3年 公民',questions},history:{title:'中学2年 歴史',questions:historyQuestions}};
+let currentCollection = collections.civics;
 const $=id=>document.getElementById(id);
 let active=[],index=0,answers=[];
-function show(page){for(const id of ['home','quiz','result'])$(id).classList.toggle('hidden',id!==page)}
+function show(page){for(const id of ['home','intro','quiz','result'])$(id).classList.toggle('hidden',id!==page)}
 function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function begin(items,isReview=false){active=items.map(item=>({...item}));index=0;answers=[];$('mode').textContent=isReview?'間違えた問題の復習':'ランダム10問';show('quiz');render()}
-function newRound(){begin(shuffle(questions).slice(0,10))}
+function begin(items,isReview=false){active=items.map(item=>({...item}));index=0;answers=[];$('mode').textContent=`${currentCollection.title}｜${isReview?'間違えた問題の復習':'ランダム10問'}`;show('quiz');render()}
+function newRound(){begin(shuffle(currentCollection.questions).slice(0,10))}
 function render(){const q=active[index];$('progress').textContent=`${index+1} / ${active.length}問`;$('question').textContent=q.question;$('feedback').textContent='';$('feedback').className='feedback';$('next').classList.add('hidden');$('next').textContent=index===active.length-1?'結果を見る →':'次の問題へ →';$('choices').replaceChildren();q.choices.forEach((choice,i)=>{const b=document.createElement('button');b.className='choice';b.textContent=`${i+1}. ${choice}`;b.addEventListener('click',()=>answer(i));$('choices').append(b)})}
 function answer(chosen){if(answers.length!==index)return;const q=active[index],correct=chosen===q.answer;answers.push({question:q,correct});[...$('choices').children].forEach((b,i)=>{b.disabled=true;if(i===q.answer)b.classList.add('correct');if(i===chosen&&!correct)b.classList.add('wrong')});$('feedback').className=`feedback ${correct?'good':'bad'}`;$('feedback').textContent=correct?'○ 正解！':`× 不正解　正解：${q.choices[q.answer]}`;$('next').classList.remove('hidden')}
 function results(){show('result');const count=answers.filter(a=>a.correct).length;const missed=answers.filter(a=>!a.correct).map(a=>a.question);$('score').textContent=`${count} / ${answers.length}問 正解`;$('summary').textContent=`正答率 ${Math.round(count/answers.length*100)}%`;$('history').replaceChildren();answers.forEach((a,i)=>{const s=document.createElement('span');s.className=a.correct?'ok':'ng';s.textContent=`${i+1}問 ${a.correct?'○':'×'}`;$('history').append(s)});$('retry').classList.toggle('hidden',missed.length===0);$('retry').textContent=`間違えた${missed.length}問を復習する`;$('retry').onclick=()=>begin(missed,true)}
-$('start').onclick=newRound;$('again').onclick=newRound;$('back').onclick=()=>show('home');$('next').onclick=()=>{if(index+1===active.length)results();else{index++;render()}};
+document.querySelectorAll('[data-subject]').forEach(b=>b.onclick=()=>{currentCollection=collections[b.dataset.subject];$('intro-title').textContent=currentCollection.title;$('intro-info').textContent=`全${currentCollection.questions.length}問からランダムで10問出題します。`;show('intro')});$('intro-back').onclick=()=>show('home');$('start').onclick=newRound;$('again').onclick=newRound;$('back').onclick=()=>show('home');$('next').onclick=()=>{if(index+1===active.length)results();else{index++;render()}};
