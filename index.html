@@ -1,29 +1,17 @@
 <!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>中学3年 定期テスト対策</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<main class="wrap">
-  <header><h1>中学3年 定期テスト対策</h1><p>科目を選択してください</p></header>
-  <section id="home" class="panel home-panel">
-    <div class="subject-grid">
-      <button class="subject" disabled><span class="subject-icon">文A</span><span>英語</span></button>
-      <button class="subject" data-subject="civics"><span class="subject-icon">▤</span><span>公民</span></button>
-      <button class="subject" disabled><span class="subject-icon">♡</span><span>保健体育</span></button>
-      <button class="subject" disabled><span class="subject-icon">⚒</span><span>技術・家庭</span></button>
-      <button class="subject" disabled><span class="subject-icon">◉</span><span>美術</span></button>
-      <button class="subject" disabled><span class="subject-icon">♫</span><span>音楽</span></button>
-      <button class="subject" disabled><span class="subject-icon">▦</span><span>数学</span></button>
-    </div>
-  </section>
-  <section id="intro" class="panel hidden"><h2 id="intro-title"></h2><p id="intro-info"></p><div class="actions"><button id="start" class="primary">ランダム10問に挑戦する</button><button id="intro-back">科目選択に戻る</button></div></section>
-  <section id="quiz" class="panel hidden"><div class="topline"><span id="mode"></span><span id="progress"></span></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback" aria-live="polite"></div><button id="next" class="primary hidden">次の問題へ →</button></section>
-  <section id="result" class="panel hidden"><h2>結果発表！</h2><p id="score" class="score"></p><p id="summary"></p><div id="history" class="history"></div><div class="actions"><button id="retry" class="primary hidden">間違えた問題を復習する</button><button id="again">もう一度ランダム10問に挑戦する</button><button id="back">科目選択に戻る</button></div></section>
-</main>
-<script src="script.js"></script>
-</body>
-</html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>中学3年 定期テスト対策</title><link rel="stylesheet" href="style.css"></head><body>
+<main class="wrap"><header><div class="eyebrow">STUDY QUIZ</div><h1>中学3年 定期テスト対策</h1><p>科目を選んで、10問ずつ練習しよう。</p></header>
+<section id="home" class="panel"><h2>問題集を選ぶ</h2><div class="subject-grid">
+<button class="subject" data-subject="english"><span class="symbol">Aa</span><span>英語</span><small>単語・熟語 / 英文穴埋め</small></button>
+<button class="subject" data-subject="civics"><span class="symbol">⚖</span><span>公民</span><small>50問</small></button>
+<button class="subject" disabled><span class="symbol">✚</span><span>保健体育</span><small>準備中</small></button>
+<button class="subject" disabled><span class="symbol">⌘</span><span>技術・家庭</span><small>準備中</small></button>
+<button class="subject" disabled><span class="symbol">◇</span><span>美術</span><small>準備中</small></button>
+<button class="subject" disabled><span class="symbol">♫</span><span>音楽</span><small>準備中</small></button>
+<button class="subject" disabled><span class="symbol">∑</span><span>数学</span><small>準備中</small></button>
+</div><div class="subnote">各問題集からランダムに10問。間違えた問題は復習できます。</div></section>
+<section id="english-menu" class="panel hidden"><button class="backlink" id="english-back">← 科目一覧へ</button><h2>英語</h2><p class="muted">練習したい問題集を選んでください。</p><div class="set-grid"><button class="set-button" data-subject="vocab"><b>単語・熟語</b><small id="vocab-count"></small><span>英語 → 日本語 / 日本語 → 英語</span></button><button class="set-button" data-subject="cloze"><b>英文穴埋め</b><small id="cloze-count"></small><span>単語の使い方・関係代名詞・分詞など</span></button></div></section>
+<section id="intro" class="panel hidden"><button id="intro-back" class="backlink">← 問題集一覧へ</button><h2 id="intro-title"></h2><p id="intro-info" class="muted"></p><button id="start" class="primary">ランダム10問に挑戦する →</button></section>
+<section id="quiz" class="panel hidden"><div class="topline"><span id="mode"></span><span id="progress"></span></div><div class="progress-track"><div id="progress-bar"></div></div><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback" aria-live="polite"></div><p id="explanation" class="explanation hidden"></p><button id="next" class="primary hidden">次の問題へ →</button></section>
+<section id="result" class="panel hidden"><h2>結果発表！</h2><p id="score" class="score"></p><p id="summary" class="muted center"></p><div id="history" class="history"></div><div class="actions"><button id="retry" class="primary hidden">間違えた問題を復習する</button><button id="again">もう一度ランダム10問に挑戦する</button><button id="back">問題集一覧へ戻る</button></div></section>
+<footer>毎日少しずつ、繰り返して身につけよう。</footer></main><script src="script.js"></script></body></html>
